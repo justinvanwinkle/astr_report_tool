@@ -7,6 +7,7 @@ from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import FileSystemBytecodeCache
 
+from lib.products import ProductList
 
 class JinjaRenderer(object):
     def __init__(self, template_path, extensions=()):
@@ -24,6 +25,7 @@ class JinjaRenderer(object):
     def render(self, template_filename, context=None, stream=False):
         if context is None:
             context = {}
+        context.update(self.global_context)
         template = self._environment.get_template(template_filename)
         rendered = None
         if stream:
@@ -32,6 +34,10 @@ class JinjaRenderer(object):
         else:
             rendered = template.render(context)
         return rendered
+
+    @property
+    def global_context(self):
+        return dict(_product_list=ProductList())
 
 _site_content_dir = os.path.join(os.path.dirname(__file__), '../../site_content')
 _template_dir = os.path.join(_site_content_dir, 'templates')
