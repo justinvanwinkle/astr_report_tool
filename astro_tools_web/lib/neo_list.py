@@ -16,7 +16,7 @@ class NEOCPEntry(Encodable):
             "Discovery_day": 'discovery_day',
             "Temp_Desig": "temporary_designation",
             "Decl.": "decl",
-            "Updated": "updated",
+            #"Updated": "updated",
             "NObs": 'number_of_observations',
             "V": 'V',
             "Score": 'score',
@@ -24,6 +24,15 @@ class NEOCPEntry(Encodable):
             "H": 'H',
             "Discovery_month": 'discovery_month',
             "Discovery_year": 'discovery_year'}
+
+    _table = ('temporary_designation',
+              'score',
+              'number_of_observations',
+              'RA',
+              'V',
+              'H',
+              'arc',
+              'not_seen_days')
 
 
 def get_neos():

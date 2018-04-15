@@ -2,6 +2,7 @@
 
 class Encodable:
     _map = {}
+    _table = []
 
     @classmethod
     def from_dict(cls, d):
@@ -13,6 +14,10 @@ class Encodable:
     @classmethod
     def fields(cls):
         return sorted(cls._map.values())
+
+    @classmethod
+    def table_fields(cls):
+        return cls._table
 
     def __repr__(self):
         cls_name = self.__class__.__name__

@@ -1,12 +1,14 @@
 {% extends "html/base.html" %}
 
-## block content
-<h1>NeoLookup</h1>
+## block nav_title
+<h3>NEO Lookup</h3>
+## endblock
 
-<table id="neocp_list" class="table table-striped">
+## block content
+<table id="neocp_list" class="table table-bordered table-sm table-striped">
   <thead>
     <tr>
-      ## for field_name in NEOCPEntry.fields():
+      ## for field_name in NEOCPEntry.table_fields():
       <th scope="col">{{field_name}}</th>
       ## endfor
     </tr>
@@ -14,7 +16,7 @@
   <tbody>
     ## for neo in neos:
     <tr>
-      ## for field_name in neo.fields():
+      ## for field_name in neo.table_fields():
       <td>{{neo[field_name]}}</td>
       ## endfor
     </tr>
