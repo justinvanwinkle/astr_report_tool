@@ -16,7 +16,7 @@ class NEOCPEntry(Encodable):
             "Discovery_day": 'discovery_day',
             "Temp_Desig": "temporary_designation",
             "Decl.": "decl",
-            #"Updated": "updated",
+            # "Updated": "updated",
             "NObs": 'number_of_observations',
             "V": 'V',
             "Score": 'score',

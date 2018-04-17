@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
-    name='astro_tools',
+    name='astro_tools_web',
     version='0.1dev',
-    packages=['astro_tools_web',],
+    packages=['astro_tools_web'],
     license='TBD No License offered'
 )

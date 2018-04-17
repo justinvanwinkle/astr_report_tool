@@ -9,6 +9,7 @@ from jinja2 import FileSystemBytecodeCache
 
 from lib.products import ProductList
 
+
 class JinjaRenderer(object):
     def __init__(self, template_path, extensions=()):
         self.template_path = template_path
@@ -39,7 +40,9 @@ class JinjaRenderer(object):
     def global_context(self):
         return dict(_product_list=ProductList())
 
-_site_content_dir = os.path.join(os.path.dirname(__file__), '../../site_content')
+
+_site_content_dir = os.path.join(os.path.dirname(__file__),
+                                 '../../site_content')
 _template_dir = os.path.join(_site_content_dir, 'templates')
 
 renderer = JinjaRenderer(_template_dir)

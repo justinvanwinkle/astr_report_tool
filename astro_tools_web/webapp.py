@@ -3,9 +3,6 @@ from __future__ import unicode_literals
 
 import os
 
-#from werkzeug.wsgi import SharedDataMiddleware
-from werkzeug.serving import run_simple
-
 from lib.baseapp import BaseApp
 from urls import make_url_map
 

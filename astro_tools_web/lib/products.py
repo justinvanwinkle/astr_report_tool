@@ -7,6 +7,7 @@ class Product:
     url = None
     title = None
 
+
 class HomeProduct:
     name = 'home'
     icon = 'home'
@@ -19,7 +20,6 @@ class NEOLookup:
     icon = 'minimize'
     url = '/NEOLookup'
     title = 'NEO Lookup'
-
 
 
 class ProductList:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Encodable:
     _map = {}
     _table = []
@@ -27,8 +28,20 @@ class Encodable:
 
         return '%s(%s)' % (cls_name, ', '.join(attr_reprs))
 
+
 def decode_list(cls, lst):
     decoded_list = []
     for entry in lst:
         decoded_list.append(cls.from_dict(entry))
+    return decoded_list
+
+
+def decode_dict(cls, d, key_attr_name=None):
+    decoded_list = []
+    for key in d:
+        inst = cls.from_dict(d[key])
+        if key_attr_name:
+            setattr(inst, key_attr_name, key)
+        decoded_list.append(inst)
+
     return decoded_list

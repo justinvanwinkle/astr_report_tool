@@ -9,5 +9,5 @@ def homepage(req):
 
     return Response(
         renderer.render('html/landing.html',
-                context=ctx),
+                        context=ctx),
         mimetype='text/html')

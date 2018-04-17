@@ -1,28 +1,23 @@
 {% extends "html/base.html" %}
+{% from "html/macro/table.html" import encodable_table %}
 
 ## block nav_title
 <h3>NEO Lookup</h3>
 ## endblock
 
 ## block content
-<table id="neocp_list" class="table table-bordered table-sm table-striped">
-  <thead>
-    <tr>
-      ## for field_name in NEOCPEntry.table_fields():
-      <th scope="col">{{field_name}}</th>
-      ## endfor
-    </tr>
-  </thead>
-  <tbody>
-    ## for neo in neos:
-    <tr>
-      ## for field_name in neo.table_fields():
-      <td>{{neo[field_name]}}</td>
-      ## endfor
-    </tr>
-    ## endfor
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-5">
+    test
+  </div>
+  <div class="col">
+    test
+  </div>
+
+</div>
+
+{{encodable_table(NEOCPEntry, neos, "neocp_list")}}
+{{encodable_table(Observatory, observatories, "observatory_list")}}
 ## endblock
 
 ## block endbody

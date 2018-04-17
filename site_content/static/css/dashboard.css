@@ -72,7 +72,10 @@ body {
 
 /*
  * Navbar
- */
+*/
+.navbar h3{
+  color: #fff;
+}
 
 .navbar-brand {
   padding-top: .75rem;
