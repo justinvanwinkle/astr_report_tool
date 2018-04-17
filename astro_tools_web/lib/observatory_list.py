@@ -4,8 +4,8 @@ from gzip import decompress
 from json import loads
 from urllib.request import urlopen
 
-from lib.encodable import Encodable
-from lib.encodable import decode_dict
+from .encodable import Encodable
+from .encodable import decode_dict
 
 _json_url = (
     'http://minorplanetcenter.net/Extended_Files/obscodes_extended.json.gz')

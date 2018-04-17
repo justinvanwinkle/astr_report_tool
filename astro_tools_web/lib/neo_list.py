@@ -3,8 +3,8 @@
 from json import loads
 from urllib.request import urlopen
 
-from lib.encodable import Encodable
-from lib.encodable import decode_list
+from . encodable import Encodable
+from . encodable import decode_list
 
 
 _json_url = 'https://www.minorplanetcenter.net/Extended_Files/neocp.json'

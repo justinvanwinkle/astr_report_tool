@@ -1,8 +1,8 @@
 from werkzeug.routing import Map
 from werkzeug.routing import Rule
 
-from endpoint.home import homepage
-from endpoint.neo_lookup import neo_lookup
+from . endpoint.home import homepage
+from . endpoint.neo_lookup import neo_lookup
 
 
 def make_url_map():

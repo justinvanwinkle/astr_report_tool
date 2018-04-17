@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from werkzeug import Response
 
-from lib.render import renderer
+from .. lib.render import renderer
 
 
 def homepage(req):

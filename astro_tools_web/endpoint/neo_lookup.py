@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from werkzeug import Response
 
-from lib.render import renderer
-from lib.neo_list import get_neos
-from lib.neo_list import NEOCPEntry
-from lib.observatory_list import Observatory
-from lib.observatory_list import get_observatories
+from .. lib.render import renderer
+from .. lib.neo_list import get_neos
+from .. lib.neo_list import NEOCPEntry
+from .. lib.observatory_list import Observatory
+from .. lib.observatory_list import get_observatories
 
 
 def neo_lookup(req):

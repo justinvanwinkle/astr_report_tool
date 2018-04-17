@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 import os
 
-from lib.baseapp import BaseApp
-from urls import make_url_map
+from .lib.baseapp import BaseApp
+from .urls import make_url_map
 
 
 def make_app():
