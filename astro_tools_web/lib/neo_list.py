@@ -3,8 +3,8 @@
 from json import loads
 from urllib.request import urlopen
 
-from . encodable import Encodable
-from . encodable import decode_list
+from .encodable import Encodable
+from .encodable import decode_list
 
 
 _json_url = 'https://www.minorplanetcenter.net/Extended_Files/neocp.json'
@@ -29,6 +29,7 @@ class NEOCPEntry(Encodable):
               'score',
               'number_of_observations',
               'RA',
+              'decl',
               'V',
               'H',
               'arc',

@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 import os
 
-from .lib.baseapp import BaseApp
-from .urls import make_url_map
+from astro_tools_web.lib.baseapp import BaseApp
+from astro_tools_web.urls import make_url_map
 
 
 def make_app():

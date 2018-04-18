@@ -1,19 +1,69 @@
 {% extends "html/base.html" %}
 {% from "html/macro/table.html" import encodable_table %}
 
-## block nav_title
-<h3>NEO Lookup</h3>
-## endblock
-
 ## block content
+<div class="row"></div>
 <div class="row">
   <div class="col-5">
-    test
+    <img src="http://dreamatico.com/data_images/stars/stars-2.jpg"
+         height="400"
+         width="400"/>
   </div>
   <div class="col">
-    test
+    <form>
+      <h5> NEO </h5>
+      <fieldset disabled>
+        <table class="table table-bordered">
+          <tr>
+            <td> Temporary Designation</td>
+            <td><input/></td>
+          </tr>
+          <tr>
+            <td> Something </td>
+            <td><input/></td>
+          </tr>
+          <tr>
+            <td> Something </td>
+            <td><input/></td>
+          </tr>
+          <tr>
+            <td> Something </td>
+            <td><input/></td>
+          </tr>
+        </table>
+      </fieldset>
+    </form>
+    <form>
+      <fieldset>
+        <h5> Observatory </h5>
+        <table class="table table-bordered">
+          <tr>
+            <td> Code </td>
+            <td><input/></td>
+          </tr>
+          <tr>
+            <td> Latitude </td>
+            <td><input id="observatory_latitude"
+                       name="latitude"/></td>
+          </tr>
+          <tr>
+            <td> Longitude </td>
+            <td><input id="observatory_longitude"
+                       name="longitude"/></td>
+          </tr>
+          <tr>
+            <td> Location Accuracy (meters) </td>
+            <td><input id="observatory_location_accuracy"
+                       name="accuracy"/></td>
+          </tr>
+          <tr>
+            <td> Elevation </td>
+            <td><input/></td>
+          </tr>
+        </table>
+      </fieldset>
+    </form>
   </div>
-
 </div>
 
 {{encodable_table(NEOCPEntry, neos, "neocp_list")}}
