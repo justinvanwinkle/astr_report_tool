@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
-import os
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 
 from astro_tools_web.lib.baseapp import BaseApp
 from astro_tools_web.urls import make_url_map
@@ -13,7 +14,7 @@ def make_app():
 
 
 if __name__ == '__main__':
-    _app_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+    _app_root = abspath(join(dirname(__file__), '../'))
     from werkzeug.serving import run_simple
     run_simple('localhost',
                8080,
@@ -21,10 +22,10 @@ if __name__ == '__main__':
                use_reloader=True,
                use_debugger=True,
                static_files={
-                   '/site_content/': os.path.abspath(
-                       os.path.join(_app_root, 'site_content')),
-                   '/': os.path.abspath(
-                       os.path.join(_app_root, 'site_content/static'))})
+                   '/site_content/': abspath(
+                       join(_app_root, 'site_content')),
+                   '/': abspath(
+                       join(_app_root, 'site_content/static'))})
 
 else:
     application = make_app()

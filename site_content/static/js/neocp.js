@@ -6,6 +6,12 @@ $(document).ready(function() {
     $('#observatory_list').DataTable( {
         select: true
     } );
+    $('#map_link').click(function() {
+        latitude =  $('#observatory_latitude').val();
+        longitude = $('#observatory_longitude').val();
+        url = 'https://maps.google.com/?ll=' + latitude + ',' + longitude;
+        window.open(url,'_blank');
+    });
     load_location();
 });
 

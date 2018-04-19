@@ -49,12 +49,17 @@
           <tr>
             <td> Longitude </td>
             <td><input id="observatory_longitude"
-                       name="longitude"/></td>
+                       name="longitude"/>
+              <a id="map_link" href="#"> map </a>
+            </td>
+
           </tr>
           <tr>
-            <td> Location Accuracy (meters) </td>
+            <td> Location Accuracy </td>
             <td><input id="observatory_location_accuracy"
-                       name="accuracy"/></td>
+                       name="accuracy"/>
+              meters
+            </td>
           </tr>
           <tr>
             <td> Elevation </td>
@@ -66,7 +71,10 @@
   </div>
 </div>
 
+<h3> NEO List </h3>
 {{encodable_table(NEOCPEntry, neos, "neocp_list")}}
+
+<h3> Observatory List </h3>
 {{encodable_table(Observatory, observatories, "observatory_list")}}
 ## endblock
 
