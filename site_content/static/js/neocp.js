@@ -1,11 +1,24 @@
-
+3
 $(document).ready(function() {
-    $('#neocp_list').DataTable( {
-        select: true
+    var neocp_list = $('#neocp_list').DataTable( {
+        select: {
+            style: 'single'
+        }
+
     } );
-    $('#observatory_list').DataTable( {
-        select: true
+
+    var observatory_list = $('#observatory_list').DataTable( {
+        select: {
+            style: 'single'
+        }
     } );
+
+    neocp_list.on( 'select', function ( e, dt, type, indexes ) {
+        if ( type === 'row' ) {
+            var obj_name = neocp_list.rows(indexes).data().pluck(0);
+        }
+    } );
+
     $('#map_link').click(function() {
         latitude =  $('#observatory_latitude').val();
         longitude = $('#observatory_longitude').val();

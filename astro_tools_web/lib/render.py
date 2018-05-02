@@ -46,3 +46,4 @@ _site_content_dir = os.path.join(os.path.dirname(__file__),
 _template_dir = os.path.join(_site_content_dir, 'templates')
 
 renderer = JinjaRenderer(_template_dir)
+render = renderer.render
