@@ -23,6 +23,7 @@ if __name__ == '__main__':
                make_app(),
                use_reloader=True,
                use_debugger=True,
+               threaded=True,
                static_files={
                    '/site_content/': abspath(
                        join(_app_root, 'site_content')),

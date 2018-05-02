@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from json import dumps
 from io import BytesIO
+from multiprocessing import Process
+from multiprocessing import Pipe
 
 from werkzeug import Response
 from astropy.io import fits
@@ -55,15 +57,22 @@ def object_track(req):
                               survey=['2MASS-K'],
                               radius=max(ephemerides.span(5) * 3, .1 * deg))
 
+    print('found {} images'.format(len(imgs)))
     # TODO: fix this
     img = imgs[0]
+    parent, child = Pipe()
+    p = Process(target=make_image, args=(ephemerides, img, child))
+    p.start()
+    p.join()
+    result = parent.recv()
+
+    return Response(result, mimetype="image/png")
+
+
+def make_image(ephemerides, img, conn):
     wcs = WCS(img[0].header)
     image_data = img[0].data
-
-    # image_data = fits.getdata(img, ext=0)
-
     buf = BytesIO()
-    plt.style.use(astropy_mpl_style)
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection=wcs)
@@ -80,8 +89,7 @@ def object_track(req):
                    transform=ax.get_transform('fk5'),
                    s=30,
                    edgecolor=color, facecolor='none')
+    # fig.tight_layout()
 
     fig.savefig(buf, format='png', dpi=200)
-    buf.seek(0)
-
-    return Response(buf, mimetype="image/png")
+    conn.send(buf.getvalue())

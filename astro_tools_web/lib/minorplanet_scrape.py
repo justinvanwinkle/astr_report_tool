@@ -109,4 +109,4 @@ class Ephemerides:
             data = line.split()
             if data and data[0].isnumeric():
                 ephemeris_data.append(dict(zip(_field_order, data)))
-        return cls(ephemeris_data[:6])
+        return cls(ephemeris_data[:10])
