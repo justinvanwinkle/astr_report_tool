@@ -40,3 +40,11 @@ function load_location() {
     navigator.geolocation.getCurrentPosition(
         fill_location_form, alert, {enableHighAccuracy: true});
 }
+
+function select_neo(temporary_designation) {
+    // Fill text box
+
+    // Select in list
+
+    // refresh images and data
+}
