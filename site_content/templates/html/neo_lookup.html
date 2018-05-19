@@ -5,38 +5,25 @@
 <div class="row"></div>
 <div class="row">
   <div class="col-12">
-    <img src="/neo_object_track?obj=N00cz24&latitude=38.996&longitude=-76.877"
+    <img src="/neo_object_track?obj=X56109&latitude=38.996&longitude=-76.877"
          class="img-fluid"/>
   </div>
 </dov>
 <div class="row">
   <div class="col">
     <form>
-      <h5> NEO </h5>
       <fieldset>
         <table class="table table-bordered">
           <tr>
             <td> Temporary Designation</td>
             <td>
-              <input list="neo_names" name="neo_name">
-              <datalist id="neo_names">
+              <input id="neo_name" list="neo_names_list" name="neo_name">
+              <datalist id="neo_names_list">
                 ## for neo in neos:
                 <option value="{{neo.temporary_designation}}" />
                 ## endfor
               </datalist>
             </td>
-          </tr>
-          <tr>
-            <td> Something </td>
-            <td><input/></td>
-          </tr>
-          <tr>
-            <td> Something </td>
-            <td><input/></td>
-          </tr>
-          <tr>
-            <td> Something </td>
-            <td><input/></td>
           </tr>
         </table>
       </fieldset>
@@ -79,11 +66,19 @@
   </div>
 </div>
 
-<h3> NEO List </h3>
-{{encodable_table(NEOCPEntry, neos, "neocp_list")}}
+<div class="row">
+  <div class="col">
+    <h3> NEO List </h3>
+    {{encodable_table(NEOCPEntry, neos, "neocp_list")}}
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <h3> Observatory List </h3>
+    {{encodable_table(Observatory, observatories, "observatory_list")}}
+  </div>
+</div>
 
-<h3> Observatory List </h3>
-{{encodable_table(Observatory, observatories, "observatory_list")}}
 ## endblock
 
 ## block endbody

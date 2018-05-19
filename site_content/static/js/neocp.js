@@ -1,4 +1,4 @@
-3
+
 $(document).ready(function() {
     var neocp_list = $('#neocp_list').DataTable( {
         select: {
@@ -26,6 +26,17 @@ $(document).ready(function() {
         window.open(url,'_blank');
     });
     load_location();
+
+    $("#neo_name").on('input', function () {
+	var option 			= $('#neo_names_list option');
+        var val = this.value.toUpperCase();
+        if($(option).filter(function(){
+	    return this.value === val;
+	}).length) {
+	    select_neo(val);
+        }
+
+    });
 });
 
 function fill_location_form(location) {
@@ -42,9 +53,10 @@ function load_location() {
 }
 
 function select_neo(temporary_designation) {
-    // Fill text box
+    $('#neo_name').val(temporary_designation);
 
     // Select in list
 
     // refresh images and data
+    console.log('Selecting: ' + temporary_designation);
 }
