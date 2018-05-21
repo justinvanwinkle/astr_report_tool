@@ -1,6 +1,7 @@
 {% extends "html/base.html" %}
 {% from "html/macro/table.html" import encodable_table %}
 {% from "html/macro/select.html" import select %}
+{% from "html/macro/form.html" import prepend %}
 
 ## block content
 <div class="row"></div>
@@ -13,7 +14,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <form class="row">
+    <form class="form-inline">
       <div class="input-group col-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Palette</span>
@@ -37,60 +38,45 @@
 <div class="row">
   <div class="col">
     <form>
-      <table class="table table-bordered">
-        <tr>
-          <td> Temporary Designation</td>
-          <td>
-            <input id="neo_name" list="neo_names_list" name="neo_name">
-            <datalist id="neo_names_list">
-              ## for neo in neos:
-              <option value="{{neo.temporary_designation}}" />
-              ## endfor
-            </datalist>
-          </td>
-        </tr>
-      </table>
+      <div class="input-group">
+        {{prepend('Temporary Designation')}}
+        <input id="neo_name" list="neo_names_list" name="neo_name">
+        <datalist id="neo_names_list">
+          ## for neo in neos:
+          <option value="{{neo.temporary_designation}}" />
+          ## endfor
+        </datalist>
+      </div>
     </form>
   </div>
   <div class="col">
-    <form>
-      <h5> Observatory </h5>
-      <table class="table table-bordered">
-        <tr>
-          <td> Code </td>
-          <td><input/></td>
-        </tr>
-        <tr>
-          <td> Latitude </td>
-          <td><input id="observatory_latitude"
-                     name="latitude"/></td>
-          <td>
-            <button id="geolocate_button" type="button" class="btn btn-secondary">
-              geolocate
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td> Longitude </td>
-          <td><input id="observatory_longitude"
-                     name="longitude"/>
-            <a id="map_link" href="#"> map </a>
-          </td>
+    <h5> Observatory </h5>
+    <a id="map_link" href="#"> map </a>
 
-        </tr>
-        <tr>
-          <td> Location Accuracy </td>
-          <td><input id="observatory_location_accuracy"
-                     name="accuracy"/>
-            meters
-          </td>
-        </tr>
-        <tr>
-          <td> Elevation </td>
-          <td><input/></td>
-        </tr>
-      </table>
-    </form>
+    <form>
+      <div class="input-group">
+        {{prepend('Code')}}
+        <input type="text" class="form-control" />
+      </div>
+      <div class="input-group">
+        {{prepend('Latitude')}}
+        <input id="observatory_latitude" name="latitude" class="form-control"/>
+        <button id="geolocate_button" type="button" class="btn btn-secondary">
+          geolocate
+        </button>
+      </div>
+      <div class="input-group">
+        {{prepend('Longitude')}}
+        <input id="observatory_longitude" name="longitude" class="form-control"/>
+      </div>
+      <div class="input-group">
+        {{prepend('Location Accuracy (meters)')}}
+        <input id="observatory_location_accuracy" name="accuracy" class="form-control"/>
+      </div>
+      <div class="input-group">
+        {{prepend('Elevation')}}
+        <input id="elevation" name="elevation" class="form-control"/>
+      </div>
   </div>
 </div>
 
