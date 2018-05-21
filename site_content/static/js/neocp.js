@@ -1,14 +1,11 @@
 
 $(document).ready(function() {
     var neocp_list = $('#neocp_list').DataTable( {
-        select: {
-            style: 'single'
-        }
-
+        select: {style: 'single'}
     });
 
     $('#neocp_list tbody').on('click', 'tr', function () {
-        var data = neocp_list.row( this ).data();
+        var data = neocp_list.row(this).data();
         select_neo(data[0]);
     });
 
@@ -28,10 +25,10 @@ $(document).ready(function() {
     });
 
     $("#neo_name").on('input', function () {
-	var option = $('#neo_names_list option');
+	var option = $('#neo_name_list option');
         var val = this.value.toUpperCase();
         if($(option).filter(function(){
-	    return this.value === val;
+	    return $(this).val() === val;
 	}).length) {
 	    select_neo(val);
         }
@@ -62,5 +59,13 @@ function select_neo(temporary_designation) {
 }
 
 function refresh_image() {
+    var data = {};
+    data['longitude'] = $('#observatory_longitude').val();
+    data['latitude'] = $('#observatory_latitude').val();
+    data['obj'] = $('#neo_name').val();
 
+    var jqxhr = $.post( '/ajax_object_track', data, function(res) {
+        $('#track_image').attr('src', res['graphic']);
+        console.log('updated image');
+    });
 }

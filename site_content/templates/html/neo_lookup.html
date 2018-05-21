@@ -3,6 +3,7 @@
 {% from "html/macro/form.html" import select %}
 {% from "html/macro/form.html" import prepend %}
 {% from "html/macro/form.html" import append_button %}
+{% from "html/macro/form.html" import button %}
 {% from "html/macro/form.html" import datalist %}
 
 ## block content
@@ -29,7 +30,7 @@
         {{select(range(10), 1, name="bub", classes="form-control custom-select")}}
         {{prepend('+sigma:')}}
         {{select(range(10), 7, classes="form-control custom-select")}}
-        {{append_button('Refresh', 'btn-primary', 'refresh_image')}}
+        {{append_button('Refresh', 'btn-primary', 'refresh_image', 'refresh-ccw')}}
       </div>
     </form>
   </div>
@@ -53,9 +54,7 @@
       <div class="input-group">
         {{prepend('Latitude')}}
         <input id="observatory_latitude" name="latitude" class="form-control"/>
-        <button id="geolocate_button" type="button" class="btn btn-secondary">
-          geolocate
-        </button>
+        {{button('geolocate', id="geolocate_button", classes="btn-secondary", icon="plus-circle")}}
       </div>
       <div class="input-group">
         {{prepend('Longitude')}}
@@ -69,45 +68,6 @@
         {{prepend('Elevation')}}
         <input id="elevation" name="elevation" class="form-control"/>
       </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <h3> NEO List </h3>
-    {{encodable_table(NEOCPEntry, neos, "neocp_list")}}
-  </div>
-</div>
-<div class="row">
-  <div class="col"><div class="col">
-      <h5> Observatory </h5>
-      <a id="map_link" href="#"> map </a>
-
-      <form>
-        <div class="input-group">
-          {{prepend('Code')}}
-          <input type="text" class="form-control" />
-        </div>
-        <div class="input-group">
-          {{prepend('Latitude')}}
-          <input id="observatory_latitude" name="latitude" class="form-control"/>
-          <button id="geolocate_button" type="button" class="btn btn-secondary">
-            geolocate
-          </button>
-        </div>
-        <div class="input-group">
-          {{prepend('Longitude')}}
-          <input id="observatory_longitude" name="longitude" class="form-control"/>
-        </div>
-        <div class="input-group">
-          {{prepend('Location Accuracy (meters)')}}
-          <input id="observatory_location_accuracy" name="accuracy" class="form-control"/>
-        </div>
-        <div class="input-group">
-          {{prepend('Elevation')}}
-          <input id="elevation" name="elevation" class="form-control"/>
-        </div>
-    </div>
   </div>
 </div>
 

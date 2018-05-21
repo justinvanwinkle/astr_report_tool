@@ -9,10 +9,13 @@ def make_url_map():
     from .endpoint.neo_lookup import neo_lookup
     from .endpoint.neo_lookup import neo_ephemerides
     from .endpoint.neo_lookup import object_track
+    from .endpoint.neo_lookup import ajax_object_track
 
     return Map([
         Rule('/', endpoint=homepage, strict_slashes=False),
         Rule('/NEOLookup', endpoint=neo_lookup, strict_slashes=False),
         Rule('/neo_ephemerides', endpoint=neo_ephemerides),
-        Rule('/neo_object_track', endpoint=object_track)
+        Rule('/neo_object_track', endpoint=object_track),
+        Rule('/ajax_object_track', endpoint=ajax_object_track)
+
     ])

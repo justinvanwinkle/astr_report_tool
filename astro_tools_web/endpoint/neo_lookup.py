@@ -1,9 +1,9 @@
 from json import dumps
+from base64 import encodebytes
 
 from werkzeug import Response
 from matplotlib.cm import cmap_d
-from astropy.coordinates import SkyCoord
-from astropy.coordinates import EarthLocation
+# from astropy.coordinates import EarthLocation
 
 from ..lib.render import render
 from ..lib.neo_list import get_neos
@@ -43,12 +43,30 @@ def neo_ephemerides(req):
         mimetype="application/json")
 
 
+def ajax_object_track(req):
+    print(req.values)
+    obj_name = req.values.get('obj')
+    latitude = req.values.get('latitude', type=float)
+    longitude = req.values.get('longitude', type=float)
+
+    ephemerides_req = EphemeridesRequest(longitude, latitude, obj_name)
+    ephemerides = ephemerides_req.make_request()
+
+    graphic = overlayed_atlas_graphic(ephemerides)
+    encoded_graphic = encodebytes(graphic).decode()
+    encoded_graphic = 'data:image/png;base64,{}'.format(encoded_graphic)
+
+    return Response(
+        dumps(dict(graphic=encoded_graphic)),
+        mimetype='application/json')
+
+
 def object_track(req):
     obj_name = req.values.get('obj')
     latitude = req.values.get('latitude', type=float)
     longitude = req.values.get('longitude', type=float)
 
-    location = EarthLocation.from_geodetic(longitude, latitude)
+    # location = EarthLocation.from_geodetic(longitude, latitude)
     ephemerides_req = EphemeridesRequest(longitude, latitude, obj_name)
     ephemerides = ephemerides_req.make_request()
 

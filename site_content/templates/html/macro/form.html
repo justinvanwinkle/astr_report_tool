@@ -19,12 +19,16 @@
 </div>
 {% endmacro %}
 
+{% macro button(text, classes='', id='', icon='') %}
+<button type="button"
+        class="btn {{classes}} form-control"
+        {%- if id %} id="{{id}}"{%- endif %}>{% if icon %}<span data-feather="{{icon}}"></span>{% endif %} {{text}}</button>
+{% endmacro %}
 
-{% macro append_button(text, classes='', id='') %}
+
+{% macro append_button(text, classes='', id='', icon='') %}
 <div class="input-group-append">
-  <button type="button"
-          class="btn {{classes}} form-control"
-          {%- if id %} id="{{id}}"{%- endif %}>{{text}}</button>
+  {{button(text, classes, id, icon)}}
 </div>
 {% endmacro %}
 
