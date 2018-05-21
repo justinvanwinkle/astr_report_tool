@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from gzip import decompress
 from json import loads
 from urllib.request import urlopen

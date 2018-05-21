@@ -1,67 +1,95 @@
 {% extends "html/base.html" %}
 {% from "html/macro/table.html" import encodable_table %}
+{% from "html/macro/select.html" import select %}
 
 ## block content
 <div class="row"></div>
 <div class="row">
   <div class="col-12">
-    <img src="/neo_object_track?obj=X56109&latitude=38.996&longitude=-76.877"
+    <img id="track_image"
+         src="/img/neo_track/umd.png"
          class="img-fluid"/>
   </div>
-</dov>
+</div>
+<div class="row">
+  <div class="col">
+    <form class="row">
+      <div class="input-group col-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Palette</span>
+        </div>
+        {{select(cmap_list, 'plasma', classes="form-control custom-select")}}
+      </div>
+      <div class="input-group col-4">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Contrast</span>
+        </div>
+        {{select(range(10), 1, name="bub", classes="form-control custom-select")}}
+        {{select(range(10), 7, classes="form-control custom-select")}}
+        <div class="input-group-append">
+          <button type="button" class="btn btn-primary form-control">Refresh</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="row">
   <div class="col">
     <form>
-      <fieldset>
-        <table class="table table-bordered">
-          <tr>
-            <td> Temporary Designation</td>
-            <td>
-              <input id="neo_name" list="neo_names_list" name="neo_name">
-              <datalist id="neo_names_list">
-                ## for neo in neos:
-                <option value="{{neo.temporary_designation}}" />
-                ## endfor
-              </datalist>
-            </td>
-          </tr>
-        </table>
-      </fieldset>
+      <table class="table table-bordered">
+        <tr>
+          <td> Temporary Designation</td>
+          <td>
+            <input id="neo_name" list="neo_names_list" name="neo_name">
+            <datalist id="neo_names_list">
+              ## for neo in neos:
+              <option value="{{neo.temporary_designation}}" />
+              ## endfor
+            </datalist>
+          </td>
+        </tr>
+      </table>
     </form>
+  </div>
+  <div class="col">
     <form>
-      <fieldset>
-        <h5> Observatory </h5>
-        <table class="table table-bordered">
-          <tr>
-            <td> Code </td>
-            <td><input/></td>
-          </tr>
-          <tr>
-            <td> Latitude </td>
-            <td><input id="observatory_latitude"
-                       name="latitude"/></td>
-          </tr>
-          <tr>
-            <td> Longitude </td>
-            <td><input id="observatory_longitude"
-                       name="longitude"/>
-              <a id="map_link" href="#"> map </a>
-            </td>
+      <h5> Observatory </h5>
+      <table class="table table-bordered">
+        <tr>
+          <td> Code </td>
+          <td><input/></td>
+        </tr>
+        <tr>
+          <td> Latitude </td>
+          <td><input id="observatory_latitude"
+                     name="latitude"/></td>
+          <td>
+            <button id="geolocate_button" type="button" class="btn btn-secondary">
+              geolocate
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td> Longitude </td>
+          <td><input id="observatory_longitude"
+                     name="longitude"/>
+            <a id="map_link" href="#"> map </a>
+          </td>
 
-          </tr>
-          <tr>
-            <td> Location Accuracy </td>
-            <td><input id="observatory_location_accuracy"
-                       name="accuracy"/>
-              meters
-            </td>
-          </tr>
-          <tr>
-            <td> Elevation </td>
-            <td><input/></td>
-          </tr>
-        </table>
-      </fieldset>
+        </tr>
+        <tr>
+          <td> Location Accuracy </td>
+          <td><input id="observatory_location_accuracy"
+                     name="accuracy"/>
+            meters
+          </td>
+        </tr>
+        <tr>
+          <td> Elevation </td>
+          <td><input/></td>
+        </tr>
+      </table>
     </form>
   </div>
 </div>

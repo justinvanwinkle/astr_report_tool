@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from werkzeug import Response
 
 from .. lib.render import renderer

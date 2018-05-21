@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from werkzeug import Request
+from werkzeug import Response
 from werkzeug import cached_property
+from werkzeug.exceptions import NotFound
 
 
 class BaseApp(object):
@@ -11,11 +10,19 @@ class BaseApp(object):
 
     def __call__(self, environ, start_response):
         urls = self.url_map.bind_to_environ(environ)
-        endpoint, args = urls.match()
-        request = Request(environ)
-        args['req'] = request
 
-        response = endpoint(**args)
+        try:
+            endpoint, args = urls.match()
+            request = Request(environ)
+            args['req'] = request
+            response = endpoint(**args)
+        except NotFound:
+            # kill tracebacks if browser is looking for js map files
+            if environ['PATH_INFO'].endswith('.js.map'):
+                response = Response('', status=404)
+            else:
+                raise
+
         return response(environ, start_response)
 
     @cached_property

@@ -1,29 +1,9 @@
-# -*- coding: utf-8 -*-
-
 from urllib.request import urlopen
+from datetime import datetime
+
 from werkzeug.urls import url_encode
 from astropy import units as u
 from astropy.coordinates import SkyCoord
-
-'''
-sort=d
-W=j
-obj=M14TLHe
-obj=ZGBE27B
-obscode=500
-Parallax=1
-long=103.0582
-lat=38.99085
-alt=
-int=2
-start=0
-raty=d
-mot=m
-dmot=p
-out=f
-sun=x
-oalt=20
-'''
 
 
 class EphemeridesRequest:
@@ -69,6 +49,13 @@ class Ephemeris:
     def __init__(self, timestamp, ra, decl, elongation, V, motion):
         pass
 
+    @classmethod
+    def from_dict(self, d):
+        timestamp = datetime(d['year'],
+                             d['month'],
+                             d['day'])
+        #hour[, minute[, second[, microsecond[,tzinfo]]]]])
+
 
 _field_order = ('year',
                 'month',
@@ -84,7 +71,22 @@ _field_order = ('year',
 
 class Ephemerides:
     def __init__(self, ephemerides):
+        print(ephemerides[0])
         self.ephemerides = ephemerides
+
+    def __bool__(self):
+        return bool(self.ephemerides)
+
+    def __iter__(self):
+        yield from self.ephemerides
+
+    @property
+    def first(self):
+        return self.ephemerides[0]
+
+    @property
+    def rest(self):
+        return self.ephemerides[1:]
 
     def span(self, limit=None):
         RAs = list(map(float, [float(eph['RA']) for eph in self.ephemerides]))

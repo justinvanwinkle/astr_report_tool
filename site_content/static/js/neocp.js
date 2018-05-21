@@ -5,19 +5,16 @@ $(document).ready(function() {
             style: 'single'
         }
 
-    } );
+    });
 
-    var observatory_list = $('#observatory_list').DataTable( {
-        select: {
-            style: 'single'
-        }
-    } );
+    $('#neocp_list tbody').on('click', 'tr', function () {
+        var data = neocp_list.row( this ).data();
+        select_neo(data[0]);
+    });
 
-    neocp_list.on( 'select', function ( e, dt, type, indexes ) {
-        if ( type === 'row' ) {
-            var obj_name = neocp_list.rows(indexes).data().pluck(0);
-        }
-    } );
+    var observatory_list = $('#observatory_list').DataTable({
+        select: {style: 'single'}
+    });
 
     $('#map_link').click(function() {
         latitude =  $('#observatory_latitude').val();
@@ -25,10 +22,13 @@ $(document).ready(function() {
         url = 'https://maps.google.com/?ll=' + latitude + ',' + longitude;
         window.open(url,'_blank');
     });
-    load_location();
+
+    $("#geolocate_button").click( function() {
+        load_location();
+    });
 
     $("#neo_name").on('input', function () {
-	var option 			= $('#neo_names_list option');
+	var option = $('#neo_names_list option');
         var val = this.value.toUpperCase();
         if($(option).filter(function(){
 	    return this.value === val;
@@ -57,6 +57,10 @@ function select_neo(temporary_designation) {
 
     // Select in list
 
-    // refresh images and data
+    refresh_image();
     console.log('Selecting: ' + temporary_designation);
+}
+
+function refresh_image() {
+
 }

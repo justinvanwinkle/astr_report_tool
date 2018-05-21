@@ -1,0 +1,9 @@
+{% macro select(options, selected, name='', id='', classes='') %}
+<select {% if classes -%} class="{{classes}}"{% endif -%}
+        {%- if name %} name="{{name}}"{% endif -%}
+        {%- if id %} id="{{id}}"{% endif -%}>
+  ## for option in options:
+  <option value="{{option}}" {%- if option == selected %} selected{% endif -%}> {{option}} </option>
+  ## endfor
+</select>
+{% endmacro %}
