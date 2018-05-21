@@ -1,6 +1,7 @@
 from os.path import abspath
 from os.path import dirname
 from os.path import join
+from os import environ
 
 
 def make_app():
@@ -30,3 +31,6 @@ if __name__ == '__main__':
 
 else:
     application = make_app()
+    if environ.get('MOD_WSGI_DEBUG_MODE'):
+        from werkzeug.debug import DebuggedApplication
+        application = DebuggedApplication(application, evalex=True)

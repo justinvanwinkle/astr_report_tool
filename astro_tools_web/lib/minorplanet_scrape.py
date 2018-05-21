@@ -46,15 +46,26 @@ class EphemeridesRequest:
 
 class Ephemeris:
 
-    def __init__(self, timestamp, ra, decl, elongation, V, motion):
-        pass
+    def __init__(self, timestamp, RA, decl, elongation, V):
+        self.timestamp = timestamp
+        self.RA = RA
+        self.decl = decl
+        self.elongation = elongation
+        self.V = V
+        self.coordinate = SkyCoord(ra=RA * u.degree, dec=decl * u.degree)
 
     @classmethod
-    def from_dict(self, d):
-        timestamp = datetime(d['year'],
-                             d['month'],
-                             d['day'])
-        #hour[, minute[, second[, microsecond[,tzinfo]]]]])
+    def from_dict(cls, d):
+        timestamp = datetime(int(d['year']),
+                             int(d['month']),
+                             int(d['day']),
+                             int(d['time'][:2]),
+                             int(d['time'][2:]))
+        RA = float(d['RA'])
+        decl = float(d['decl'])
+        elongation = float(d['elong'])
+        V = float(d['V'])
+        return cls(timestamp, RA, decl, elongation, V)
 
 
 _field_order = ('year',
@@ -85,24 +96,20 @@ class Ephemerides:
         return self.ephemerides[0]
 
     @property
+    def last(self):
+        return self.ephemerides[-1]
+
+    @property
     def rest(self):
         return self.ephemerides[1:]
 
     def span(self, limit=None):
-        RAs = list(map(float, [float(eph['RA']) for eph in self.ephemerides]))
-        decls = list(map(float, [float(eph['decl'])
-                                 for eph in self.ephemerides]))
-
-        coords = []
-        for RA, decl in zip(RAs, decls):
-            coords.append(SkyCoord(ra=RA * u.degree, dec=decl * u.degree))
-
         if limit:
-            coords = coords[:limit]
+            last = self.ephemerides[limit:][-1]
+        else:
+            last = self.last
 
-        sep = coords[0].separation(coords[-1])
-
-        return sep
+        return self.first.coordinate.separation(last.coordinate)
 
     @classmethod
     def from_minorplanets_tool(cls, s):
@@ -110,5 +117,6 @@ class Ephemerides:
         for line in s.split('<pre>')[1].split('</pre>')[0].splitlines():
             data = line.split()
             if data and data[0].isnumeric():
-                ephemeris_data.append(dict(zip(_field_order, data)))
+                d = dict(zip(_field_order, data))
+                ephemeris_data.append(Ephemeris.from_dict(d))
         return cls(ephemeris_data[:10])

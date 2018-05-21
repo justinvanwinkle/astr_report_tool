@@ -1,20 +1,26 @@
 from json import dumps
+
 from werkzeug import Response
 from matplotlib.cm import cmap_d
+from astropy.coordinates import SkyCoord
+from astropy.coordinates import EarthLocation
 
-from .. lib.render import render
-from .. lib.neo_list import get_neos
-from .. lib.neo_list import NEOCPEntry
-from .. lib.observatory_list import Observatory
-from .. lib.observatory_list import get_observatories
+from ..lib.render import render
+from ..lib.neo_list import get_neos
+from ..lib.neo_list import NEOCPEntry
+from ..lib.neo_track import overlayed_atlas_graphic
+from ..lib.observatory_list import Observatory
+from ..lib.observatory_list import get_observatories
 from ..lib.minorplanet_scrape import EphemeridesRequest
+
 
 _cmap_list = [k for k in cmap_d if not k.endswith('_r')]
 
 
 def neo_lookup(req):
     ctx = dict(product_name='neo_lookup')
-    ctx['neos'] = get_neos()
+    ctx['neos'] = neos = get_neos()
+    ctx['neo_names'] = [n.temporary_designation for n in neos]
     ctx['NEOCPEntry'] = NEOCPEntry
 
     ctx['Observatory'] = Observatory
@@ -41,10 +47,14 @@ def object_track(req):
     obj_name = req.values.get('obj')
     latitude = req.values.get('latitude', type=float)
     longitude = req.values.get('longitude', type=float)
+
+    location = EarthLocation.from_geodetic(longitude, latitude)
     ephemerides_req = EphemeridesRequest(longitude, latitude, obj_name)
     ephemerides = ephemerides_req.make_request()
 
-    return Response(buf.getvalue(), mimetype="image/png")
+    graphic = overlayed_atlas_graphic(ephemerides)
+
+    return Response(graphic, mimetype="image/png")
 
 
 def fits_histogram(req):

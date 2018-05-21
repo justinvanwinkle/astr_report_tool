@@ -1,5 +1,40 @@
+{% macro select(options, selected, name='', id='', classes='') %}
+<select {% if classes -%} class="{{classes}}"{% endif -%}
+        {%- if name %} name="{{name}}"{% endif -%}
+        {%- if id %} id="{{id}}"{% endif -%}>
+  {{option_list(options, selected)}}
+</select>
+{% endmacro %}
+
+{% macro option_list(options, selected=None) %}
+## for option in options:
+<option value="{{option}}" {%- if option == selected %} selected{% endif -%}> {{option}} </option>
+## endfor
+{% endmacro %}
+
+
 {% macro prepend(text) %}
 <div class="input-group-prepend">
   <div class="input-group-text">{{text}}</div>
+</div>
+{% endmacro %}
+
+
+{% macro append_button(text, classes='', id='') %}
+<div class="input-group-append">
+  <button type="button"
+          class="btn {{classes}} form-control"
+          {%- if id %} id="{{id}}"{%- endif %}>{{text}}</button>
+</div>
+{% endmacro %}
+
+
+{% macro datalist(title, input_id, values, selected=None) %}
+<div class="input-group">
+  {{prepend(title)}}
+  <input id="{{input_id}}" list="{{input_id}}_list" name="{{input_id}}">
+  <datalist id="{{input_id}}_list">
+    {{option_list(values)}}
+  </datalist>
 </div>
 {% endmacro %}

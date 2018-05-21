@@ -28,9 +28,6 @@ def get_atlas_img(position, radius, survey='2MASS-K'):
 
 
 def build_overlay(img, ephemerides, format='png'):
-    eph = ephemerides.ephemerides[0]
-    position = SkyCoord(float(eph['RA']) * deg, float(eph['decl']) * deg)
-    radius = max(ephemerides.span(5) * 3, .1 * deg)
     wcs = WCS(img[0].header)
     image_data = img[0].data
     buf = BytesIO()
@@ -47,8 +44,8 @@ def build_overlay(img, ephemerides, format='png'):
     ax.imshow(image_data, cmap='plasma', norm=LogNorm(vmin=lower, vmax=upper))
 
     def add_marker(eph, color, marker):
-        ax.scatter(float(eph['RA']),
-                   float(eph['decl']),
+        ax.scatter(eph.RA,
+                   eph.decl,
                    marker=marker,
                    transform=ax.get_transform('fk5'),
                    s=30,
@@ -63,4 +60,9 @@ def build_overlay(img, ephemerides, format='png'):
     return buf.getvalue()
 
 
-def overlayed_atlas_image(ephemerides):
+def overlayed_atlas_graphic(ephemerides):
+    img = get_atlas_img(ephemerides.first.coordinate,
+                        max(ephemerides.span(5) * 3, .1 * deg))
+    graphic = build_overlay(img, ephemerides)
+
+    return graphic
