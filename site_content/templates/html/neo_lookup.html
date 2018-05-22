@@ -22,14 +22,14 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Palette</span>
         </div>
-        {{select(cmap_list, 'plasma', classes="form-control custom-select")}}
+        {{select(cmap_list, 'plasma', id="cmap", classes="custom-select")}}
       </div>
       <div class="input-group col-6">
         {{prepend('Contrast')}}
         {{prepend('-sigma:')}}
-        {{select(range(10), 1, name="bub", classes="form-control custom-select")}}
+        {{select(range(10), 1, id="sigma_low", classes="custom-select")}}
         {{prepend('+sigma:')}}
-        {{select(range(10), 7, classes="form-control custom-select")}}
+        {{select(range(10), 7, id="sigma_high", classes="custom-select")}}
         {{append_button('Refresh', 'btn-primary', 'refresh_image', 'refresh-ccw')}}
       </div>
     </form>
@@ -44,7 +44,7 @@
   </div>
   <div class="col">
     <h5> Observatory </h5>
-    <a id="map_link" href="#"> map </a>
+    <span> Check your locatoin with this <a id="map_link" href="#"> map </a> </span>
 
     <form>
       <div class="input-group">

@@ -63,6 +63,9 @@ function refresh_image() {
     data['longitude'] = $('#observatory_longitude').val();
     data['latitude'] = $('#observatory_latitude').val();
     data['obj'] = $('#neo_name').val();
+    data['sigma_high'] = $('#sigma_high').val();
+    data['sigma_low'] = $('#sigma_low').val();
+    data['cmap'] = $('#cmap').val();
 
     var jqxhr = $.post( '/ajax_object_track', data, function(res) {
         $('#track_image').attr('src', res['graphic']);

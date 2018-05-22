@@ -44,7 +44,6 @@ def neo_ephemerides(req):
 
 
 def ajax_object_track(req):
-    print(req.values)
     obj_name = req.values.get('obj')
     latitude = req.values.get('latitude', type=float)
     longitude = req.values.get('longitude', type=float)

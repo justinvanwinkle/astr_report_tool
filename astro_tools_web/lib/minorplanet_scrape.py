@@ -82,7 +82,6 @@ _field_order = ('year',
 
 class Ephemerides:
     def __init__(self, ephemerides):
-        print(ephemerides[0])
         self.ephemerides = ephemerides
 
     def __bool__(self):
