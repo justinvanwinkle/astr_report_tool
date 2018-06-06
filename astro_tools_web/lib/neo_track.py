@@ -9,6 +9,17 @@ from matplotlib.figure import Figure
 import numpy as np
 
 
+class AtlasTrackGraphic:
+    def __init__(self, ephemerides):
+        self.ephemerides = ephemerides
+
+    def render(self, cmap_name='plasma', sigma_low=1, sigma_high=7):
+        graphic = overlayed_atlas_graphic(
+            self.ephemerides, cmap_name, sigma_low, sigma_high)
+
+        return graphic
+
+
 def get_atlas_img(position, radius, survey='2MASS-K'):
     imgs = SkyView.get_images(position=position,
                               survey=[survey],
@@ -57,9 +68,9 @@ def build_overlay(img,
     return buf.getvalue()
 
 
-def overlayed_atlas_graphic(ephemerides):
+def overlayed_atlas_graphic(ephemerides, cmap_name, sigma_low, sigma_high):
     img = get_atlas_img(ephemerides.first.coordinate,
-                        max(ephemerides.span(5) * 3, .1 * deg))
-    graphic = build_overlay(img, ephemerides)
+                        max(ephemerides.span() * 3, .1 * deg))
+    graphic = build_overlay(img, ephemerides, sigma_low, sigma_high, cmap_name)
 
     return graphic

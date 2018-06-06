@@ -1,5 +1,11 @@
 
+log = console.log;
+
 $(document).ready(function() {
+    $('#refresh_image').click(function() {
+        refresh_image();
+    });
+
     var neocp_list = $('#neocp_list').DataTable( {
         select: {style: 'single'}
     });
@@ -26,9 +32,9 @@ $(document).ready(function() {
 
     $("#neo_name").on('input', function () {
 	var option = $('#neo_name_list option');
-        var val = this.value.toUpperCase();
+        var val = this.value;
         if($(option).filter(function(){
-	    return $(this).val() === val;
+	    return $(this).val().toUpperCase() === val.toUpperCase();
 	}).length) {
 	    select_neo(val);
         }
@@ -55,20 +61,22 @@ function select_neo(temporary_designation) {
     // Select in list
 
     refresh_image();
-    console.log('Selecting: ' + temporary_designation);
+    log('Selecting: ' + temporary_designation);
 }
 
 function refresh_image() {
-    var data = {};
-    data['longitude'] = $('#observatory_longitude').val();
-    data['latitude'] = $('#observatory_latitude').val();
-    data['obj'] = $('#neo_name').val();
-    data['sigma_high'] = $('#sigma_high').val();
-    data['sigma_low'] = $('#sigma_low').val();
-    data['cmap'] = $('#cmap').val();
+    var data = {
+        latitude: $('#observatory_longitude').val(),
+        longitude: $('#observatory_latitude').val(),
+        obj: $('#neo_name').val(),
+        sigma_high: $('#sigma_high').val(),
+        sigma_low: $('#sigma_low').val(),
+        cmap_name: $('#cmap_name').val() };
+    log(data)
 
     var jqxhr = $.post( '/ajax_object_track', data, function(res) {
         $('#track_image').attr('src', res['graphic']);
-        console.log('updated image');
+        log('updated image');
+        $('#ephemeride_table').html(res['ephemeride_table']);
     });
 }

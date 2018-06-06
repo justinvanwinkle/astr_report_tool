@@ -1,5 +1,5 @@
 {% macro select(options, selected, name='', id='', classes='') %}
-<select {% if classes -%} class="{{classes}}"{% endif -%}
+<select {% if classes -%} class="form-control {{classes}}"{% endif -%}
         {%- if name %} name="{{name}}"{% endif -%}
         {%- if id %} id="{{id}}"{% endif -%}>
   {{option_list(options, selected)}}

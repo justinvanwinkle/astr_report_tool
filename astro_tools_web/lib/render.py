@@ -1,4 +1,5 @@
 import os
+from base64 import encodebytes
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
@@ -44,3 +45,9 @@ _template_dir = os.path.join(_site_content_dir, 'templates')
 
 renderer = JinjaRenderer(_template_dir)
 render = renderer.render
+
+
+def to_data_uri(b, mimetype):
+    encoded_bytes = encodebytes(b).decode()
+    encoded_bytes = 'data:{};base64,{}'.format(mimetype, encoded_bytes)
+    return encoded_bytes

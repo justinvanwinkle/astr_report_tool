@@ -24,7 +24,7 @@ class EphemeridesRequest:
                     W='j',
                     obj=self.obj,
                     obscode=self.obscode if self.obscode else '',
-                    Parallax=1,
+                    Parallax=2,
                     long=self.longitude,
                     lat=self.latitude,
                     alt=self.altitude if self.altitude is not None else 200,
@@ -41,6 +41,7 @@ class EphemeridesRequest:
         s = urlopen(
             self._url, data=url_encode(self.data()).encode('utf8')).read()
         s = s.decode('utf8')
+        print(s)
         return Ephemerides.from_minorplanets_tool(s)
 
 

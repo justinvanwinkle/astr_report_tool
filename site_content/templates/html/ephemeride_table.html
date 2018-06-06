@@ -1,0 +1,22 @@
+
+
+<table class="table table-striped table-sm">
+  <thead>
+    <tr>
+      <th> Time </th>
+      <th> RA </th>
+      <th> decl </th>
+    </tr>
+  </thead>
+
+  <tbody>
+  ## for eph in ephemerides
+  <tr>
+    <td> {{eph.timestamp}} </td>
+    <td> {{eph.RA}} </td>
+    <td> {{eph.decl}} </td>
+  </tr>
+  ## endfor
+  </tbody>
+
+</table>

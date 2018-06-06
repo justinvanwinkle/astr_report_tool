@@ -1,5 +1,4 @@
 from json import dumps
-from base64 import encodebytes
 
 from werkzeug import Response
 from matplotlib.cm import cmap_d
@@ -8,13 +7,15 @@ from matplotlib.cm import cmap_d
 from ..lib.render import render
 from ..lib.neo_list import get_neos
 from ..lib.neo_list import NEOCPEntry
-from ..lib.neo_track import overlayed_atlas_graphic
+from ..lib.neo_track import AtlasTrackGraphic
 from ..lib.observatory_list import Observatory
 from ..lib.observatory_list import get_observatories
 from ..lib.minorplanet_scrape import EphemeridesRequest
+from ..lib.render import to_data_uri
 
 
 _cmap_list = [k for k in cmap_d if not k.endswith('_r')]
+_cmap_list.sort()
 
 
 def neo_lookup(req):
@@ -33,45 +34,30 @@ def neo_lookup(req):
         mimetype='text/html')
 
 
-def neo_ephemerides(req):
-    obj_name = req.values.get('obj')
-    ephemerides_req = EphemeridesRequest(76.888186, 38.9974385, obj_name)
-    ephemerides = ephemerides_req.make_request()
-
-    return Response(
-        dumps(ephemerides),
-        mimetype="application/json")
-
-
 def ajax_object_track(req):
     obj_name = req.values.get('obj')
     latitude = req.values.get('latitude', type=float)
     longitude = req.values.get('longitude', type=float)
 
+    # todo add configuration to dry up defaults
+    cmap_name = req.values.get('cmap_name')
+    sigma_high = req.values.get('sigma_high', type=int)
+    sigma_low = req.values.get('sigma_low', type=int)
+
     ephemerides_req = EphemeridesRequest(longitude, latitude, obj_name)
     ephemerides = ephemerides_req.make_request()
 
-    graphic = overlayed_atlas_graphic(ephemerides)
-    encoded_graphic = encodebytes(graphic).decode()
-    encoded_graphic = 'data:image/png;base64,{}'.format(encoded_graphic)
+    atg = AtlasTrackGraphic(ephemerides)
+    encoded_graphic = to_data_uri(
+        atg.render(cmap_name, sigma_low, sigma_high), 'image/png')
+
+    ephemeride_table = render("html/ephemeride_table.html",
+                              dict(ephemerides=ephemerides))
 
     return Response(
-        dumps(dict(graphic=encoded_graphic)),
+        dumps(dict(graphic=encoded_graphic,
+                   ephemeride_table=ephemeride_table)),
         mimetype='application/json')
-
-
-def object_track(req):
-    obj_name = req.values.get('obj')
-    latitude = req.values.get('latitude', type=float)
-    longitude = req.values.get('longitude', type=float)
-
-    # location = EarthLocation.from_geodetic(longitude, latitude)
-    ephemerides_req = EphemeridesRequest(longitude, latitude, obj_name)
-    ephemerides = ephemerides_req.make_request()
-
-    graphic = overlayed_atlas_graphic(ephemerides)
-
-    return Response(graphic, mimetype="image/png")
 
 
 def fits_histogram(req):

@@ -6,30 +6,39 @@
 {% from "html/macro/form.html" import button %}
 {% from "html/macro/form.html" import datalist %}
 
+## block page_title
+UMD NEO Track
+## endblock
+
 ## block content
 <div class="row"></div>
 <div class="row">
   <div class="col-12">
     <img id="track_image"
          src="/img/neo_track/umd.png"
-         class="img-fluid"/>
+         class="img-fluid mx-auto d-block"/>
   </div>
 </div>
+
 <div class="row">
-  <div class="col">
+  <div class="col p-3">
     <form class="form-inline">
       <div class="input-group col-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Palette</span>
         </div>
-        {{select(cmap_list, 'plasma', id="cmap", classes="custom-select")}}
+        {{select(cmap_list, 'plasma', id="cmap_name", classes="custom-select")}}
       </div>
-      <div class="input-group col-6">
+      <div class="input-group col-7">
         {{prepend('Contrast')}}
         {{prepend('-sigma:')}}
         {{select(range(10), 1, id="sigma_low", classes="custom-select")}}
         {{prepend('+sigma:')}}
         {{select(range(10), 7, id="sigma_high", classes="custom-select")}}
+
+        {{prepend('Zoom')}}
+        {{select(range(10), 5, id="image_zoom", classes="custom-select")}}
+
         {{append_button('Refresh', 'btn-primary', 'refresh_image', 'refresh-ccw')}}
       </div>
     </form>
@@ -39,7 +48,7 @@
 <div class="row">
   <div class="col">
     {{datalist('Temporary Designation', 'neo_name', neo_names)}}
-    <div id="ephemeride_table">
+    <div id="ephemeride_table" class="p-2">
     </div>
   </div>
   <div class="col">
@@ -54,7 +63,7 @@
       <div class="input-group">
         {{prepend('Latitude')}}
         <input id="observatory_latitude" name="latitude" class="form-control"/>
-        {{button('geolocate', id="geolocate_button", classes="btn-secondary", icon="plus-circle")}}
+        {{button('geolocate', id="geolocate_button", classes="btn-secondary", icon="crosshair")}}
       </div>
       <div class="input-group">
         {{prepend('Longitude')}}
