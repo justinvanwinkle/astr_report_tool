@@ -5,7 +5,6 @@ from glob import iglob
 from json import dump as json_dump
 
 from astropy.coordinates import SkyCoord
-from astropy.units import deg
 from astropy.io import fits
 
 from .encodable import Encodable
@@ -29,7 +28,8 @@ class FitsCentroid(Encodable):
 
     @classmethod
     def from_file(cls, basepath, fn):
-        with fits.open(fn, mmap=True) as f:
+        abs_fn = join(basepath, fn)
+        with fits.open(abs_fn, mmap=True) as f:
             for ix, hdu in enumerate(f):
                 ra = hdu.header['CRVAL1']
                 decl = hdu.header['CRVAL2']
@@ -45,8 +45,8 @@ class FitsIndex:
     def reindex_path(self):
         entries = []
         for fn in iglob(join(self.path, '**/*.fits'), recursive=True):
-            print(fn)
-            for centroid in FitsCentroid.from_file(self.path, fn):
+            for centroid in FitsCentroid.from_file(
+                    self.path, relpath(fn, self.path)):
                 entries.append(centroid)
         self.entries = entries
 
@@ -58,6 +58,5 @@ class FitsIndex:
         for entry in self.entries:
             encoded_entries.append(entry.to_dict())
 
-        print(fn)
         with open(fn, 'w') as f:
             json_dump(index, f, indent=2)
