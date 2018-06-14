@@ -3,6 +3,7 @@ from os.path import abspath
 from os.path import relpath
 from glob import iglob
 from json import dump as json_dump
+from json import load as json_load
 
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
@@ -37,9 +38,11 @@ class FitsCentroid(Encodable):
 
 
 class FitsIndex:
+    _index_fn = '.fits_centroid.index'
+
     def __init__(self, path):
         self.path = abspath(path)
-        self.index_fn = join(path, '.fits_centroid.index')
+        self.index_fn = join(path, self._index_fn)
         self.entries = []
 
     def reindex_path(self):
@@ -60,3 +63,11 @@ class FitsIndex:
 
         with open(fn, 'w') as f:
             json_dump(index, f, indent=2)
+
+    def load_index(self):
+        with open(self.index_fn) as f:
+            index = json_load(f)
+        entries = []
+        for d in index['encoded_entries']:
+            entries.append(FitsCentroid.from_dict(d))
+        self.entries = entries
