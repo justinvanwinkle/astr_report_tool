@@ -8,11 +8,8 @@ def main():
     args = parser.parse_args()
 
     index = FitsIndex(args.path)
-
-    for fn in iglob(join(args.path, '**/*.fits')):
-        index.index_file(fn)
-
-    index.write_index(args.index_fn)
+    index.reindex_path()
+    index.write_index()
 
 
 if __name__ == '__main__':

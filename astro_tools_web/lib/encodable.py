@@ -1,12 +1,24 @@
 class Encodable:
+    _encode_attrs = []
     _map = {}
     _table = []
+
+    def to_dict(self):
+        d = {}
+        for attr_name in self._encode_attrs:
+            d[attr_name] = getattr(self, attr_name)
+
+        return d
 
     @classmethod
     def from_dict(cls, d):
         inst = cls()
         for attr in cls._map:
             setattr(inst, cls._map[attr], d.get(attr))
+
+        for attr_name in cls._encode_attrs:
+            setattr(inst, d[attr_name])
+
         return inst
 
     @classmethod

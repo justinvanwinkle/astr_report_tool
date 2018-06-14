@@ -1,19 +1,31 @@
 from os.path import join
 from os.path import abspath
+from os.path import relpath
 from glob import iglob
+from json import dump as json_dump
 
 from astropy.coordinates import SkyCoord
+from astropy.units import deg
 from astropy.io import fits
 
+from .encodable import Encodable
 
-class FitsCentroid:
-    def __init__(self, fn, hdu_index, decl, ra):
+
+class FitsCentroid(Encodable):
+    _encode_attrs = ('fn', 'hdu_index', 'decl', 'ra')
+
+    def __init__(self, path, fn, hdu_index, ra, decl):
+        self.path = path
         self.fn = fn
         self.hdu_index = hdu_index
-        self.decl = decl
         self.ra = ra
+        self.decl = decl
 
-        self.coord = SkyCoord(ra, decl, frame='fk5', unit="deg")
+        self.coord = SkyCoord(ra=ra, dec=decl, frame='icrs', unit="deg")
+
+    @property
+    def abs_fn(self):
+        return join(self.path, self.fn)
 
     @classmethod
     def from_file(cls, basepath, fn):
@@ -21,20 +33,31 @@ class FitsCentroid:
             for ix, hdu in enumerate(f):
                 ra = hdu.header['CRVAL1']
                 decl = hdu.header['CRVAL2']
-                yield cls(fn, ix, ra, decl)
-
-    def to_row(self):
-        return [self.fn, self.hdu_index, self.decl, self.ra]
+                yield cls(basepath, fn, ix, ra, decl)
 
 
 class FitsIndex:
     def __init__(self, path):
         self.path = abspath(path)
         self.index_fn = join(path, '.fits_centroid.index')
+        self.entries = []
 
-    def generate_index(self):
-        d = {}
-        with open(self.index_fn, 'w') as f:
-            for fn in iglob(join(self.path, '**/*.fits'), recursive=True):
-                for centroid in FitsCentroid.from_file(self.path, fn):
-                    pass
+    def reindex_path(self):
+        entries = []
+        for fn in iglob(join(self.path, '**/*.fits'), recursive=True):
+            print(fn)
+            for centroid in FitsCentroid.from_file(self.path, fn):
+                entries.append(centroid)
+        self.entries = entries
+
+    def write_index(self, fn=None):
+        if fn is None:
+            fn = self.index_fn
+        encoded_entries = []
+        index = dict(encoded_entries=encoded_entries)
+        for entry in self.entries:
+            encoded_entries.append(entry.to_dict())
+
+        print(fn)
+        with open(fn, 'w') as f:
+            json_dump(index, f, indent=2)
