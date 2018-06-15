@@ -4,6 +4,10 @@ from os.path import relpath
 from glob import iglob
 from json import dump as json_dump
 from json import load as json_load
+from numpy import sin
+from numpy import cos
+from numpy import pi
+from scipy.spatial import KDTree
 
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
@@ -45,6 +49,8 @@ class FitsIndex:
         self.index_fn = join(path, self._index_fn)
         self.entries = []
 
+        self.kd_index = None
+
     def reindex_path(self):
         entries = []
         for fn in iglob(join(self.path, '**/*.fits'), recursive=True):
@@ -52,6 +58,17 @@ class FitsIndex:
                     self.path, relpath(fn, self.path)):
                 entries.append(centroid)
         self.entries = entries
+        self.rebuild_index()
+
+    def rebuild_index(self):
+        theta = [e.decl * pi/180 for e in self.entries]
+        phi = [e.ra * pi/180 for e in self.entries]
+
+        x = cos(theta) * sin(phi)
+        y = sin(theta) * sin(phi)
+        z = cos(phi)
+
+        self.kd_index = KDTree(list(zip(x, y, z)))
 
     def write_index(self, fn=None):
         if fn is None:
@@ -69,5 +86,17 @@ class FitsIndex:
             index = json_load(f)
         entries = []
         for d in index['encoded_entries']:
-            entries.append(FitsCentroid.from_dict(d))
+            d['path'] = self.path
+            entries.append(FitsCentroid(**d))
         self.entries = entries
+
+    def closest_image(self, coord):
+        ra = coord.ra
+        dec = coord.dec
+        x = cos(dec) * sin(ra)
+        y = sin(dec) * sin(ra)
+        z = cos(ra)
+
+        _, index = self.kd_index.query((x, y, z))
+
+        return self.entries[index]
