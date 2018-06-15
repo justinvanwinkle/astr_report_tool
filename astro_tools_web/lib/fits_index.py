@@ -89,6 +89,7 @@ class FitsIndex:
             d['path'] = self.path
             entries.append(FitsCentroid(**d))
         self.entries = entries
+        self.rebuild_index()
 
     def closest_image(self, coord):
         ra = coord.ra
