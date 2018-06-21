@@ -1,6 +1,6 @@
 apipkg==1.4
 asn1crypto==0.24.0
--e git+git@github.com:justinvanwinkle/astr_report_tool.git@aee8369bc6ed1bdfaf5db46c8323984f03fbb2d4#egg=astro_tools_web
+-e git+git@github.com:justinvanwinkle/astr_report_tool.git@c33ca0480361be2ac39332e4686a5923a5c2324f#egg=astro_tools_web
 astropy==3.0.3
 astroquery==0.3.8
 atomicwrites==1.1.5
@@ -46,6 +46,7 @@ pytest-pep8==1.0.6
 python-dateutil==2.7.3
 pytz==2018.4
 requests==2.18.4
+scipy==1.1.0
 SecretStorage==3.0.1
 simplegeneric==0.8.1
 six==1.11.0

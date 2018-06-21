@@ -2,11 +2,18 @@ from io import BytesIO
 
 from astropy.units import deg
 from astropy.wcs import WCS
-from astroquery.skyview import SkyView
+from astropy.io import fits
+from astropy.nddata.utils import Cutout2D
+#from astroquery.skyview import SkyView
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.colors import LogNorm
 from matplotlib.figure import Figure
 import numpy as np
+
+from .fits_index import FitsIndex
+
+_fits_index = FitsIndex('/home/jvanwink/fits/')
+_fits_index.load_index()
 
 
 class AtlasTrackGraphic:
@@ -21,23 +28,38 @@ class AtlasTrackGraphic:
 
 
 def get_atlas_img(position, radius, survey='2MASS-K'):
-    imgs = SkyView.get_images(position=position,
-                              survey=[survey],
-                              radius=radius)
+    # imgs = SkyView.get_images(position=position,
+    #                           survey=[survey],
+    #                           radius=radius)
 
-    img = imgs[0]
+    # img = imgs[0]
+
+    img = fits.open(_fits_index.closest_image(position).abs_fn, mmap=True)
 
     return img
 
 
-def build_overlay(img,
-                  ephemerides,
+def build_overlay(ephemerides,
                   lower_sigma=1,
                   upper_sigma=7,
                   cmap='plasma',
+                  radius=None,
                   format='png'):
-    wcs = WCS(img[0].header)
-    image_data = img[0].data
+
+    position = ephemerides.first.coordinate
+    img = fits.open(_fits_index.closest_image(position).abs_fn, mmap=True)
+
+    cutout = Cutout2D(img[0].data,
+                      position,
+                      size=radius*2,
+                      wcs=WCS(img[0].header))
+
+    # wcs = WCS(img[0].header)
+    # image_data = img[0].data
+
+    wcs = cutout.wcs
+    image_data = cutout.data
+
     buf = BytesIO()
 
     fig = Figure()
@@ -69,8 +91,9 @@ def build_overlay(img,
 
 
 def overlayed_atlas_graphic(ephemerides, cmap_name, sigma_low, sigma_high):
-    img = get_atlas_img(ephemerides.first.coordinate,
-                        max(ephemerides.span() * 3, .1 * deg))
-    graphic = build_overlay(img, ephemerides, sigma_low, sigma_high, cmap_name)
-
+    graphic = build_overlay(ephemerides,
+                            sigma_low,
+                            sigma_high,
+                            cmap_name,
+                            radius=max(ephemerides.span() * 3, .1 * deg))
     return graphic

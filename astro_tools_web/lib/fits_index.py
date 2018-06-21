@@ -1,16 +1,16 @@
-from os.path import join
-from os.path import abspath
-from os.path import relpath
 from glob import iglob
 from json import dump as json_dump
 from json import load as json_load
-from numpy import sin
-from numpy import cos
-from numpy import pi
-from scipy.spatial import KDTree
+from os.path import abspath
+from os.path import join
+from os.path import relpath
 
 from astropy.coordinates import SkyCoord
 from astropy.io import fits
+from numpy import cos
+from numpy import pi
+from numpy import sin
+from scipy.spatial import KDTree
 
 from .encodable import Encodable
 
