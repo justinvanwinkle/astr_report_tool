@@ -41,7 +41,7 @@ class EphemeridesRequest:
         s = urlopen(
             self._url, data=url_encode(self.data()).encode('utf8')).read()
         s = s.decode('utf8')
-        print(s)
+        # print(s)
         return Ephemerides.from_minorplanets_tool(s)
 
 
