@@ -27,18 +27,6 @@ class AtlasTrackGraphic:
         return graphic
 
 
-def get_atlas_img(position, radius, survey='2MASS-K'):
-    # imgs = SkyView.get_images(position=position,
-    #                           survey=[survey],
-    #                           radius=radius)
-
-    # img = imgs[0]
-
-    img = fits.open(_fits_index.closest_image(position).abs_fn, mmap=True)
-
-    return img
-
-
 def build_overlay(ephemerides,
                   lower_sigma=1,
                   upper_sigma=7,
