@@ -21,13 +21,12 @@ class EphemeridesRequest:
 
     def data(self):
         return dict(sort='d',
-                    W='j',
-                    obj=self.obj,
+                    W='a',
                     obscode=self.obscode if self.obscode else '',
                     Parallax=2,
                     long=self.longitude,
                     lat=self.latitude,
-                    alt=self.altitude if self.altitude is not None else 200,
+                    alt=self.altitude if self.altitude is not None else '',
                     int=2,
                     start=0,
                     raty='d',
@@ -113,6 +112,10 @@ class Ephemerides:
 
     @classmethod
     def from_minorplanets_tool(cls, s):
+        from .html_scrape import Document
+        doc = Document(s)
+        print(doc.tree)
+        #from ipdb import set_trace; set_trace()
         ephemeris_data = []
         for line in s.split('<pre>')[1].split('</pre>')[0].splitlines():
             data = line.split()
