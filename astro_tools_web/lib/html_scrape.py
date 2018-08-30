@@ -88,7 +88,7 @@ class Document(object):
     def raw_text(self):
         return ''.join(self.itertext())
 
-    @cached_property
+    @property
     def text(self):
         return condense_whitespace(self.raw_text)
 
@@ -134,6 +134,7 @@ class Document(object):
     def sections(self,
                  start=None,
                  end=None,
+                 inclusive=False,
                  section_re=None,
                  xpath=None,
                  first=False,
@@ -157,7 +158,10 @@ class Document(object):
             klass = Document
 
         if start and end:
-            section_re = re.compile(r'%s(.+?)%s' % (start, end), re.DOTALL)
+            if inclusive:
+                section_re = re.compile(r'(%s.+?%s)' % (start, end), re.DOTALL)
+            else:
+                section_re = re.compile(r'%s(.+?)%s' % (start, end), re.DOTALL)
 
         if section_re:
             if not hasattr(section_re, 'match'):

@@ -4,7 +4,7 @@ from astropy.units import deg
 from astropy.wcs import WCS
 from astropy.io import fits
 from astropy.nddata.utils import Cutout2D
-#from astroquery.skyview import SkyView
+# from astroquery.skyview import SkyView
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.colors import LogNorm
 from matplotlib.figure import Figure

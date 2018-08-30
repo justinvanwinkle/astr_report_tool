@@ -1,7 +1,7 @@
 class Encodable:
-    _encode_attrs = []
+    _encode_attrs = tuple()
     _map = {}
-    _table = []
+    _table = tuple()
 
     def to_dict(self):
         d = {}
@@ -28,6 +28,9 @@ class Encodable:
     @classmethod
     def table_fields(cls):
         return cls._table
+
+    def row(self):
+        return [getattr(self, name) for name in self._table]
 
     def __repr__(self):
         cls_name = self.__class__.__name__

@@ -54,11 +54,16 @@ UMD NEO Track
   <div class="col">
     <h5> Observatory </h5>
     <span> Check your locatoin with this <a id="map_link" href="#"> map </a> </span>
-
+    <div class="row">
+      <div class="col">
+        <h3> Observatory List </h3>
+        {{encodable_table(Observatory, observatories, "observatory_list")}}
+      </div>
+    </div>
     <form>
       <div class="input-group">
         {{prepend('Code')}}
-        <input type="text" class="form-control" />
+        <input id="observatory_code" name="code" type="text" class="form-control" />
       </div>
       <div class="input-group">
         {{prepend('Latitude')}}
@@ -84,13 +89,6 @@ UMD NEO Track
   <div class="col">
     <h3> NEO List </h3>
     {{encodable_table(NEOCPEntry, neos, "neocp_list")}}
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <h3> Observatory List </h3>
-    {{encodable_table(Observatory, observatories, "observatory_list")}}
   </div>
 </div>
 
