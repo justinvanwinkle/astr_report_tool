@@ -28,7 +28,7 @@ lxml==4.2.4
 MarkupSafe==1.0
 matplotlib==2.2.2
 mccabe==0.6.1
-mod-wsgi==4.6.4
+mod-wsgi==4.9.3
 mod-wsgi-httpd==2.4.27.1
 more-itertools==4.1.0
 numpy==1.15.1
